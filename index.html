@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Creator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Pixel Art Creator</h1>
+            <p class="text-gray-600">Create your own pixel art masterpiece!</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Creator Tools Panel -->
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-4">Creator Tools</h2>
+                    
+                    <!-- Grid Size Selector -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Grid Size</h3>
+                        <div class="grid grid-cols-3 gap-2 mb-3">
+                            <button onclick="setPresetGridSize(16)" class="bg-blue-100 text-blue-700 px-2 py-1.5 text-sm rounded hover:bg-blue-200 transition">
+                                16x16
+                            </button>
+                            <button onclick="setPresetGridSize(32)" class="bg-blue-100 text-blue-700 px-2 py-1.5 text-sm rounded hover:bg-blue-200 transition">
+                                32x32
+                            </button>
+                            <button onclick="setPresetGridSize(64)" class="bg-blue-100 text-blue-700 px-2 py-1.5 text-sm rounded hover:bg-blue-200 transition">
+                                64x64
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-sm text-gray-600 mb-1">Custom Size</p>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-500 mb-1">Width</label>
+                                    <input type="number" id="customWidth" min="4" max="100" value="16" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-500 mb-1">Height</label>
+                                    <input type="number" id="customHeight" min="4" max="100" value="16" class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                                </div>
+                                <div class="flex items-end">
+                                    <button onclick="setCustomGridSize()" class="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded hover:bg-blue-200 transition h-[34px]">
+                                        Set
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Picker -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Current Color</h3>
+                        <div class="flex items-center">
+                            <input type="color" id="colorPicker" value="#000000" class="w-16 h-10 rounded border border-gray-300">
+                            <span id="colorValue" class="ml-2 text-sm text-gray-600">#000000</span>
+                        </div>
+                    </div>
+
+                    <!-- Color Palette -->
+                    <div class="mb-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-medium">Color Palette</h3>
+                            <button onclick="addToPalette()" class="text-sm text-blue-600 hover:text-blue-800">+ Add</button>
+                        </div>
+                        <div id="colorPalette" class="flex flex-wrap gap-2">
+                            <!-- Colors will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Options -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-4">Export Options</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label for="transparentBg" class="text-sm font-medium text-gray-700">Transparent Background</label>
+                            <input type="checkbox" id="transparentBg" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <label for="showGridLines" class="text-sm font-medium text-gray-700">Grid Lines</label>
+                            <input type="checkbox" id="showGridLines" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <label for="showRowNumbers" class="text-sm font-medium text-gray-700">Rows Numbered</label>
+                            <input type="checkbox" id="showRowNumbers" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <label for="showColumnNumbers" class="text-sm font-medium text-gray-700">Columns Numbered</label>
+                            <input type="checkbox" id="showColumnNumbers" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        </div>
+                        
+                        <button onclick="exportImage()" class="w-full mt-4 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition">
+                            Download as PNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Area -->
+            <div class="lg:col-span-3">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div id="pixelGrid" class="border border-gray-200 overflow-auto max-h-[80vh] flex justify-center">
+                        <!-- Grid will be generated here -->
+                        <div class="text-gray-400 p-8">
+                            Select a grid size to begin
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
