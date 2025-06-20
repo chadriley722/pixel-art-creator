@@ -9,6 +9,8 @@ let currentColor = '#000000';
 let gridWidth = 16;
 let gridHeight = 16;
 let isMouseDown = false;
+let isEraserActive = false;
+const defaultColor = '#ffffff'; // Default color (white) for eraser
 
 // Default color palette
 const defaultColors = [
@@ -21,15 +23,53 @@ const defaultColors = [
 // Initialize the app
 function init() {
     // Set up event listeners
-    colorPicker.addEventListener('input', updateCurrentColor);
+    colorPicker.addEventListener('input', (e) => {
+        currentColor = e.target.value;
+        isEraserActive = false;
+        updateToolButtons();
+    });
+    
+    // Tool buttons
+    document.getElementById('paintBtn').addEventListener('click', () => {
+        isEraserActive = false;
+        updateToolButtons();
+    });
+
+    document.getElementById('eraserBtn').addEventListener('click', () => {
+        isEraserActive = true;
+        updateToolButtons();
+    });
+    
+    // Handle mouse events for drawing
     document.addEventListener('mousedown', () => isMouseDown = true);
     document.addEventListener('mouseup', () => isMouseDown = false);
     
+    // Initialize the grid with default size
+    createGrid();
+    setPresetGridSize(16);
+    
+    // Initialize tool buttons state
+    updateToolButtons();
+    
     // Initialize color palette
     defaultColors.forEach(color => addColorToPalette(color));
+}
+
+function updateToolButtons() {
+    const paintBtn = document.getElementById('paintBtn');
+    const eraserBtn = document.getElementById('eraserBtn');
     
-    // Set default grid size
-    setPresetGridSize(16);
+    if (isEraserActive) {
+        paintBtn.classList.remove('bg-blue-500', 'text-white');
+        paintBtn.classList.add('bg-gray-200', 'text-gray-800');
+        eraserBtn.classList.remove('bg-gray-200', 'text-gray-800');
+        eraserBtn.classList.add('bg-red-500', 'text-white');
+    } else {
+        paintBtn.classList.remove('bg-gray-200', 'text-gray-800');
+        paintBtn.classList.add('bg-blue-500', 'text-white');
+        eraserBtn.classList.remove('bg-red-500', 'text-white');
+        eraserBtn.classList.add('bg-gray-200', 'text-gray-800');
+    }
 }
 
 // Set the grid size with width and height
@@ -76,39 +116,50 @@ function renderGrid() {
     // Create pixels
     for (let i = 0; i < gridWidth * gridHeight; i++) {
         const pixel = document.createElement('div');
-        pixel.className = 'pixel bg-white';
-        pixel.dataset.index = i;
+        pixel.className = 'pixel';
+        pixel.style.backgroundColor = defaultColor;
         
         // Add event listeners for click and drag
-        pixel.addEventListener('mousedown', handlePixelClick);
-        pixel.addEventListener('mouseover', handlePixelHover);
+        pixel.addEventListener('mousedown', (e) => {
+            if (e.button === 0) { // Only left click
+                handlePixelClick(pixel);
+            }
+        });
         
-        // Prevent drag selection
+        pixel.addEventListener('mouseenter', () => {
+            handlePixelHover(pixel);
+        });
+        
         pixel.addEventListener('dragstart', (e) => e.preventDefault());
         
         gridContainer.appendChild(pixel);
     }
     
     pixelGrid.appendChild(gridContainer);
+    
+    // Handle mouse down on grid
+    pixelGrid.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('pixel')) {
+            isMouseDown = true;
+            handlePixelClick(e.target);
+            e.preventDefault(); // Prevent text selection while dragging
+        }
+    });
 }
 
 // Handle pixel click
-function handlePixelClick(e) {
-    if (e.button !== 0) return; // Only left click
-    
-    const pixel = e.target;
-    pixel.style.backgroundColor = currentColor;
+function handlePixelClick(pixel) {
+    pixel.style.backgroundColor = isEraserActive ? defaultColor : currentColor;
     
     // Add click animation
     pixel.classList.add('pixel-click');
-    setTimeout(() => pixel.classList.remove('pixel-click'), 200);
+    setTimeout(() => pixel.classList.remove('pixel-click'), 100);
 }
 
-// Handle pixel hover (for click and drag)
-function handlePixelHover(e) {
+// Handle pixel hover for drawing
+function handlePixelHover(pixel) {
     if (isMouseDown) {
-        const pixel = e.target;
-        pixel.style.backgroundColor = currentColor;
+        pixel.style.backgroundColor = isEraserActive ? defaultColor : currentColor;
     }
 }
 

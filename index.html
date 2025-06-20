@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Art Creator</title>
+    <title>Pixel Art Creator – Simple Grid-Based Pixel Drawing Tool</title>
+    
+    <!-- Basic SEO Meta Tags -->
+    <meta name="description" content="Create pixel art effortlessly with our free online grid-based drawing tool. Choose grid sizes like 16×16 or 32×32, customize your color palette, and export as PNG.">
+    <meta name="keywords" content="pixel art, pixel art creator, pixel art generator, pixel editor, 8-bit art, grid drawing tool, retro art, online pixel drawing, pixel export">
+    <meta name="author" content="Chad Riley">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chadriley722.github.io/pixel-art-creator/">
+    <meta property="og:title" content="Pixel Art Creator – Make Pixel Art Online">
+    <meta property="og:description" content="Draw pixel art directly in your browser. Choose grid size, build your palette, and export your art as PNG.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/chadriley722/pixel-art-creator/main/screenshot.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://chadriley722.github.io/pixel-art-creator/">
+    <meta property="twitter:title" content="Pixel Art Creator – Make Pixel Art Online">
+    <meta property="twitter:description" content="Draw pixel art directly in your browser. Choose grid size, build your palette, and export your art as PNG.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/chadriley722/pixel-art-creator/main/screenshot.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,8 +36,13 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <!-- Creator Tools Panel -->
             <div class="space-y-6">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-semibold mb-4">Creator Tools</h2>
+                <div class="creator-tools p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-3">Creator Tools</h3>
+                    
+                    <div class="flex space-x-2 mb-3">
+                        <button id="paintBtn" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Paint</button>
+                        <button id="eraserBtn" class="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Eraser</button>
+                    </div>
                     
                     <!-- Grid Size Selector -->
                     <div class="mb-6">
