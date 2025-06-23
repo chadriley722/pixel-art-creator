@@ -69,7 +69,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-- [Your Name](https://github.com/yourusername)
+- [Chad Riley](https://github.com/chadriley722)
 
 ---
 
